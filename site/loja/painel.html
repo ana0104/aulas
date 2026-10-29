@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Painel da Professora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat:wght@700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #DDEFFF; --dots: #b9dcff; --paper: #ffffff; --ink: #1B1F3B; --muted: #4a5075; --line: #c9d3ea;
+    --yellow: #FFD23F; --blue: #2F6FEB; --ok: #1F9E6E; --okbg: #DDF7EC; --warn: #9a6a00; --warnbg: #FFF1C2;
+    --bad: #D6334A; --badbg: #FDE3E7;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141833; --dots: #1f2550; --paper: #1e2346; --ink: #F2F4FF; --muted: #aab0d6; --line: #343b6b;
+      --blue: #7FA8FF; --ok: #5fd6a4; --okbg: #173a30; --warn: #ffd36b; --warnbg: #3a3014; --bad: #FF7A8C; --badbg: #3d1c29;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141833; --dots: #1f2550; --paper: #1e2346; --ink: #F2F4FF; --muted: #aab0d6; --line: #343b6b;
+    --blue: #7FA8FF; --ok: #5fd6a4; --okbg: #173a30; --warn: #ffd36b; --warnbg: #3a3014; --bad: #FF7A8C; --badbg: #3d1c29;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--dots) 1.4px, transparent 1.6px);
+    background-size: 22px 22px;
+    color: var(--ink);
+    font: 16px/1.5 "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 20px 16px 48px; }
+  .tela { display: none; }
+  .tela.ativa { display: block; }
+
+  h1 { font: 700 2.4rem/1 "Caveat", "Segoe Script", cursive; margin: 18px 0 6px; }
+  h2 { font: 700 1.7rem/1.1 "Caveat", "Segoe Script", cursive; margin: 30px 0 10px; }
+  .sub { margin: 0; color: var(--muted); font-weight: 600; }
+
+  .cartao {
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 6px;
+    box-shadow: 5px 5px 0 var(--ink); padding: 16px;
+  }
+
+  label { display: block; margin: 12px 0 5px; font-weight: 800; font-size: .9rem; }
+  input {
+    width: 100%; font: inherit; padding: 9px 11px; color: var(--ink); background: var(--paper);
+    border: 2.5px solid var(--ink); border-radius: 6px;
+  }
+  input:focus { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  button { font: inherit; cursor: pointer; }
+  .btn {
+    padding: 9px 16px; font-weight: 800; color: #1B1F3B; background: var(--yellow);
+    border: 2.5px solid var(--ink); border-radius: 6px; box-shadow: 3px 3px 0 var(--ink);
+  }
+  .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--ink); }
+  .btn.cheio { width: 100%; margin-top: 16px; }
+  .mini {
+    padding: 2px 10px; font-weight: 800; font-size: .8rem; color: var(--ink); background: var(--paper);
+    border: 2px solid var(--ink); border-radius: 999px;
+  }
+  .mini.perigo { color: var(--bad); border-color: var(--bad); }
+  button:disabled { opacity: .55; cursor: wait; }
+  button:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  .msg { display: none; margin: 14px 0 0; padding: 9px 12px; border-radius: 0 6px 6px 0; font-weight: 700; font-size: .92rem; }
+  .msg.erro { display: block; color: var(--bad); background: var(--badbg); border-left: 5px solid var(--bad); }
+
+  .barra { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+  /* Pedidos de código */
+  .pedidos { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .pedidos li {
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px;
+    background: var(--paper); border: 2px solid var(--ink); border-radius: 6px;
+  }
+  .codigo { font-family: "Bangers", Impact, sans-serif; font-size: 1.6rem; letter-spacing: .18em; flex: none; }
+  .pedidos small, .fam small { display: block; color: var(--muted); font-weight: 600; font-size: .82rem; }
+  .dica { display: block; margin-top: 6px; color: var(--muted); font-weight: 600; font-size: .82rem; }
+  .pedidos li > span:nth-child(2) { flex: 1; min-width: 0; }
+  a.mini { text-decoration: none; display: inline-block; }
+  .mini.zap { color: #fff; background: #17994A; border-color: #17994A; }
+  .vazio { color: var(--muted); font-weight: 700; padding: 10px 0; }
+
+  /* Famílias */
+  .busca { margin-bottom: 12px; }
+  .zaplink { display: inline-block; margin-top: 2px; font-weight: 800; font-size: .85rem; color: #17994A; }
+  .familias { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+  .fam { padding: 14px; background: var(--paper); border: 2.5px solid var(--ink); border-radius: 6px; }
+  .fam-topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .fam strong { font-size: 1.05rem; font-weight: 900; }
+  .etiqueta { flex: none; padding: 1px 9px; border-radius: 999px; font-size: .78rem; font-weight: 900; border: 2px solid currentColor; white-space: nowrap; }
+  .etiqueta.ok { color: var(--ok); background: var(--okbg); }
+  .etiqueta.aviso { color: var(--warn); background: var(--warnbg); }
+  .etiqueta.ruim { color: var(--bad); background: var(--badbg); }
+  .aparelhos { list-style: none; margin: 10px 0 0; padding: 0; border-top: 1.5px dashed var(--line); }
+  .aparelhos li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1.5px dashed var(--line); }
+  .acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; font-weight: 700; font-size: .88rem; }
+  .acoes .vagas { margin-right: auto; color: var(--muted); }
+
+  details.cartao summary { cursor: pointer; font-weight: 900; }
+  .duas { display: grid; gap: 0 12px; }
+  @media (min-width: 560px) { .duas { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     CONFIGURAÇÃO: endereço do Supabase (o mesmo do portal)
+     ============================================================ -->
+<script>
+  const SUPABASE_URL = "https://spbyexrqtzxildwjhcec.supabase.co";
+</script>
+
+<div class="wrap">
+
+  <section id="tela-senha" class="tela">
+    <h1>Painel da Professora</h1>
+    <p class="sub">Só para a professora. Digite a senha do painel.</p>
+    <form id="form-senha" class="cartao" style="margin-top: 18px">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" autocomplete="current-password" required>
+      <button class="btn cheio" type="submit">Entrar</button>
+      <div id="msg-senha" class="msg" role="alert"></div>
+    </form>
+  </section>
+
+  <section id="tela-painel" class="tela">
+    <div class="barra">
+      <h1>Painel da Professora</h1>
+      <div style="display: flex; gap: 8px">
+        <button id="testar" class="mini" type="button">Testar WhatsApp</button>
+        <button id="atualizar" class="mini" type="button">Atualizar</button>
+        <button id="sair" class="mini" type="button">Sair</button>
+      </div>
+    </div>
+    <p id="resumo" class="sub"></p>
+    <div id="msg-painel" class="msg" role="alert"></div>
+
+    <h2>Códigos aguardando</h2>
+    <p class="sub" style="margin-bottom: 10px">Cada código também chega no seu WhatsApp. Toque em <strong>Mandar</strong> para abrir a conversa com a mãe já com o código escrito.</p>
+    <ul id="pedidos" class="pedidos"></ul>
+
+    <h2>Famílias</h2>
+    <input id="busca" class="busca" type="search" placeholder="Buscar por nome ou e-mail" aria-label="Buscar família">
+    <ul id="familias" class="familias"></ul>
+
+    <h2>Atividades</h2>
+    <ul id="sites" class="pedidos"></ul>
+    <details class="cartao" style="margin-top: 12px">
+      <summary>Enviar atividade nova (ou corrigir uma)</summary>
+      <form id="form-site">
+        <label for="s-titulo">Título que a mãe vê</label>
+        <input id="s-titulo" type="text" maxlength="120" placeholder="Revisão de Português – 3º tri" required>
+        <label for="s-arquivo">Arquivo do site (.html)</label>
+        <input id="s-arquivo" type="file" accept=".html,.htm,text/html" required>
+        <small class="dica">Mesmo título de uma atividade que já existe = substitui (serve para corrigir).</small>
+        <button class="btn cheio" type="submit">Enviar</button>
+        <div id="msg-site" class="msg" role="alert"></div>
+      </form>
+    </details>
+
+    <h2>Cadastrar família à mão</h2>
+    <details class="cartao">
+      <summary>Para quem pagou fora da loja</summary>
+      <form id="form-cadastro">
+        <div class="duas">
+          <div>
+            <label for="c-nome">Nome (aparece nas atividades)</label>
+            <input id="c-nome" type="text" maxlength="80" placeholder="Família Souza" required>
+          </div>
+          <div>
+            <label for="c-email">E-mail</label>
+            <input id="c-email" type="email" placeholder="mae@exemplo.com" required>
+          </div>
+        </div>
+        <label for="c-whats">WhatsApp (com DDD)</label>
+        <input id="c-whats" type="tel" placeholder="(11) 91234-5678">
+        <label for="c-ate">Acesso até (deixe em branco para não vencer)</label>
+        <input id="c-ate" type="date">
+        <button class="btn cheio" type="submit">Cadastrar</button>
+        <div id="msg-cadastro" class="msg" role="alert"></div>
+      </form>
+    </details>
+  </section>
+</div>
+
+<script>
+  const FUNCAO = SUPABASE_URL.replace(/\/+$/, "") + "/functions/v1/acesso";
+  const $ = (id) => document.getElementById(id);
+  let dados = { familias: [], pedidos: [], sites: [] };
+
+  const guarda = {
+    ler() { try { return sessionStorage.getItem("painel_senha"); } catch { return null; } },
+    gravar(v) { try { sessionStorage.setItem("painel_senha", v); } catch {} },
+    apagar() { try { sessionStorage.removeItem("painel_senha"); } catch {} },
+  };
+  let senha = guarda.ler();
+
+  function mostrar(tela) {
+    document.querySelectorAll(".tela").forEach((t) => t.classList.remove("ativa"));
+    $(tela).classList.add("ativa");
+  }
+
+  function aviso(id, texto) {
+    $(id).className = "msg " + (texto ? "erro" : "");
+    $(id).textContent = texto || "";
+  }
+
+  async function chamar(acao, extra = {}) {
+    let r;
+    try {
+      r = await fetch(FUNCAO, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ acao, senha, ...extra }),
+      });
+    } catch {
+      throw new Error("Sem conexão. Confira a internet.");
+    }
+    let json = {};
+    try { json = await r.json(); } catch {}
+    if (!r.ok) {
+      const e = new Error(json.erro || "Algo deu errado. Tente de novo.");
+      e.motivo = json.motivo;
+      throw e;
+    }
+    return json;
+  }
+
+  async function executar(acao, extra, botao, msgId = "msg-painel") {
+    if (botao) botao.disabled = true;
+    aviso(msgId, "");
+    try {
+      dados = await chamar(acao, extra);
+      desenhar();
+      return true;
+    } catch (e) {
+      if (e.motivo === "senha") {
+        guarda.apagar();
+        senha = null;
+        mostrar("tela-senha");
+        aviso("msg-senha", e.message);
+      } else {
+        aviso(msgId, e.message);
+      }
+      return false;
+    } finally {
+      if (botao) botao.disabled = false;
+    }
+  }
+
+  // ---------- Datas ----------
+  const hoje = new Date().toLocaleDateString("en-CA", { timeZone: "America/Sao_Paulo" });
+  const dataBR = (iso) => iso.slice(0, 10).split("-").reverse().join("/");
+  const horaBR = (iso) => new Date(iso).toLocaleString("pt-BR", {
+    timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit",
+  });
+  function diasAte(iso) {
+    return Math.round((Date.parse(iso + "T00:00:00Z") - Date.parse(hoje + "T00:00:00Z")) / 86400000);
+  }
+
+  function situacao(f) {
+    if (!f.ativa) return ["Pausada", "ruim"];
+    if (!f.acesso_ate) return ["Sem vencimento", "ok"];
+    const d = diasAte(f.acesso_ate);
+    if (d < 0) return ["Venceu " + dataBR(f.acesso_ate), "ruim"];
+    if (d <= 3) return ["Vence " + dataBR(f.acesso_ate), "aviso"];
+    return ["Até " + dataBR(f.acesso_ate), "ok"];
+  }
+
+  // ---------- Desenho ----------
+  function el(tag, props = {}, ...filhos) {
+    const e = document.createElement(tag);
+    Object.assign(e, props);
+    e.append(...filhos);
+    return e;
+  }
+
+  function desenhar() {
+    const ativas = dados.familias.filter((f) => situacao(f)[1] !== "ruim").length;
+    const aps = dados.familias.reduce((n, f) => n + f.aparelhos.length, 0);
+    $("resumo").textContent = `${ativas} família(s) com acesso · ${aps} aparelho(s) liberado(s)`;
+
+    const ul = $("pedidos");
+    ul.replaceChildren();
+    if (!dados.pedidos.length) ul.append(el("li", { className: "vazio", style: "border:0;background:none;padding:0" }, "Nenhum código aguardando."));
+    dados.pedidos.forEach((p) => {
+      const texto = `Olá! Aqui é a Profª Ana Clara. O código para liberar o aparelho "${p.apelido}" é ${p.codigo}. ` +
+        `Digite na tela do portal. Ele vale por 24 horas.`;
+      const filhos = [
+        el("span", { className: "codigo" }, p.codigo),
+        el("span", {}, el("strong", {}, p.familia_nome || "-"),
+          el("small", {}, `${p.apelido || "-"} · ${horaBR(p.criado_em)}`),
+          el("small", {}, p.email || "")),
+      ];
+      if (p.whatsapp) filhos.push(el("a", {
+        className: "mini zap", textContent: "Mandar", target: "_blank", rel: "noopener",
+        href: "https://wa.me/" + p.whatsapp + "?text=" + encodeURIComponent(texto),
+      }));
+      ul.append(el("li", {}, ...filhos));
+    });
+
+    desenharSites();
+    desenharFamilias();
+  }
+
+  function desenharSites() {
+    const ul = $("sites");
+    ul.replaceChildren();
+    if (!dados.sites.length) ul.append(el("li", { className: "vazio", style: "border:0;background:none;padding:0" }, "Nenhuma atividade enviada ainda."));
+    dados.sites.forEach((s) => {
+      const mostrarOcultar = el("button", { type: "button", className: "mini", textContent: s.publicado ? "Esconder" : "Mostrar" });
+      mostrarOcultar.addEventListener("click", () => executar("painel_site", { slug: s.slug, publicado: !s.publicado }, mostrarOcultar));
+      const apagar = el("button", { type: "button", className: "mini perigo", textContent: "Apagar" });
+      apagar.addEventListener("click", () => {
+        if (confirm(`Apagar "${s.titulo}" de vez?`)) executar("painel_site", { slug: s.slug, apagar: true }, apagar);
+      });
+      ul.append(el("li", {},
+        el("span", {}, el("strong", {}, s.titulo), el("small", {}, s.publicado ? "Aparece para as famílias" : "Escondida")),
+        mostrarOcultar, apagar,
+      ));
+    });
+  }
+
+  function desenharFamilias() {
+    const termo = $("busca").value.trim().toLowerCase();
+    const lista = dados.familias.filter((f) => !termo || f.nome.toLowerCase().includes(termo) || f.email.includes(termo));
+    const ul = $("familias");
+    ul.replaceChildren();
+    if (!lista.length) ul.append(el("li", { className: "vazio" }, termo ? "Nenhuma família encontrada." : "Nenhuma família cadastrada."));
+
+    lista.forEach((f) => {
+      const [txt, tipo] = situacao(f);
+      const aparelhos = el("ul", { className: "aparelhos" });
+      if (!f.aparelhos.length) aparelhos.append(el("li", {}, el("small", {}, "Nenhum aparelho liberado.")));
+      f.aparelhos.forEach((a) => {
+        const tirar = el("button", { type: "button", className: "mini perigo", textContent: "Tirar" });
+        tirar.addEventListener("click", () => {
+          if (confirm(`Tirar "${a.apelido || "aparelho"}" de ${f.nome}? Ele para de funcionar na hora e libera uma vaga.`)) {
+            executar("painel_tirar_aparelho", { id: a.id }, tirar);
+          }
+        });
+        aparelhos.append(el("li", {},
+          el("span", {}, el("strong", { style: "font-size:.95rem" }, a.apelido || "Aparelho sem nome"),
+            el("small", {}, `Liberado ${horaBR(a.criado_em)} · último uso ${horaBR(a.ultimo_acesso)}`)),
+          tirar,
+        ));
+      });
+
+      const pausar = el("button", { type: "button", className: "mini" + (f.ativa ? " perigo" : ""), textContent: f.ativa ? "Pausar" : "Reativar" });
+      pausar.addEventListener("click", () => {
+        const pergunta = f.ativa
+          ? `Pausar ${f.nome}? Todos os aparelhos param de abrir as atividades até você reativar.`
+          : `Reativar ${f.nome}?`;
+        if (confirm(pergunta)) executar("painel_familia", { id: f.id, ativa: !f.ativa }, pausar);
+      });
+      const menos = el("button", { type: "button", className: "mini", textContent: "−", ariaLabel: "Uma vaga a menos" });
+      const mais = el("button", { type: "button", className: "mini", textContent: "+", ariaLabel: "Uma vaga a mais" });
+      menos.disabled = f.limite_aparelhos <= 1;
+      mais.disabled = f.limite_aparelhos >= 6;
+      menos.addEventListener("click", () => executar("painel_familia", { id: f.id, limite_aparelhos: f.limite_aparelhos - 1 }, menos));
+      mais.addEventListener("click", () => executar("painel_familia", { id: f.id, limite_aparelhos: f.limite_aparelhos + 1 }, mais));
+
+      ul.append(el("li", { className: "fam" },
+        el("div", { className: "fam-topo" },
+          el("span", {}, el("strong", {}, f.nome), el("small", {}, f.email),
+            f.whatsapp
+              ? el("a", { href: "https://wa.me/" + f.whatsapp, target: "_blank", rel: "noopener", className: "zaplink" }, "WhatsApp +" + f.whatsapp)
+              : el("small", {}, "sem WhatsApp")),
+          el("span", { className: "etiqueta " + tipo }, txt),
+        ),
+        aparelhos,
+        el("div", { className: "acoes" },
+          el("span", { className: "vagas" }, `${f.aparelhos.length} de ${f.limite_aparelhos} aparelho(s)`),
+          menos, mais, pausar,
+        ),
+      ));
+    });
+  }
+
+  // ---------- Eventos ----------
+  $("form-senha").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    senha = $("senha").value;
+    const botao = ev.submitter || ev.target.querySelector("button");
+    if (await executar("painel_resumo", {}, botao, "msg-senha")) {
+      guarda.gravar(senha);
+      $("senha").value = "";
+      mostrar("tela-painel");
+    }
+  });
+
+  $("atualizar").addEventListener("click", (ev) => executar("painel_resumo", {}, ev.currentTarget));
+  $("sair").addEventListener("click", () => {
+    guarda.apagar();
+    senha = null;
+    dados = { familias: [], pedidos: [], sites: [] };
+    mostrar("tela-senha");
+  });
+  $("busca").addEventListener("input", desenharFamilias);
+
+  $("testar").addEventListener("click", async (ev) => {
+    if (await executar("painel_testar_whatsapp", {}, ev.currentTarget)) alert("Mensagem enviada! Confira o seu WhatsApp.");
+  });
+
+  $("form-site").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const botao = ev.submitter || ev.target.querySelector("button");
+    const arquivo = $("s-arquivo").files[0];
+    if (!arquivo) return aviso("msg-site", "Escolha o arquivo .html.");
+    const html = await arquivo.text();
+    const ok = await executar("painel_enviar_site", { titulo: $("s-titulo").value, html }, botao, "msg-site");
+    if (ok) {
+      ev.target.reset();
+      alert("Atividade enviada! Ela já aparece para as famílias.");
+    }
+  });
+
+  $("form-cadastro").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const botao = ev.submitter || ev.target.querySelector("button");
+    const ok = await executar("painel_cadastrar", {
+      nome: $("c-nome").value, email: $("c-email").value, whatsapp: $("c-whats").value, acesso_ate: $("c-ate").value,
+    }, botao, "msg-cadastro");
+    if (ok) ev.target.reset();
+  });
+
+  // ---------- Início ----------
+  if (senha) {
+    mostrar("tela-painel");
+    executar("painel_resumo", {});
+  } else {
+    mostrar("tela-senha");
+  }
+</script>
+</body>
+</html>

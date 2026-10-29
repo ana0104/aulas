@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atividades · Profª Ana Clara</title>
+<meta name="description" content="Resumos, revisões e jogos do 6º ano da Profª Ana Clara. R$ 40 por mês, com Pix ou cartão.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Caveat:wght@700&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #DDEFFF; --dots: #b9dcff; --paper: #ffffff; --ink: #1B1F3B; --muted: #4a5075;
+    --yellow: #FFD23F; --blue: #2F6FEB; --pink: #FF5C8A; --ok: #1F9E6E; --okbg: #DDF7EC;
+    --bad: #D6334A; --badbg: #FDE3E7; --info: #2F6FEB; --infobg: #E3EDFF;
+    --zap: #17994A;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141833; --dots: #1f2550; --paper: #1e2346; --ink: #F2F4FF; --muted: #aab0d6;
+      --blue: #7FA8FF; --ok: #5fd6a4; --okbg: #173a30; --bad: #FF7A8C; --badbg: #3d1c29; --info: #7FA8FF; --infobg: #1f2a55;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141833; --dots: #1f2550; --paper: #1e2346; --ink: #F2F4FF; --muted: #aab0d6;
+    --blue: #7FA8FF; --ok: #5fd6a4; --okbg: #173a30; --bad: #FF7A8C; --badbg: #3d1c29; --info: #7FA8FF; --infobg: #1f2a55;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--dots) 1.4px, transparent 1.6px);
+    background-size: 22px 22px;
+    color: var(--ink);
+    font: 17px/1.55 "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 20px 16px 40px; }
+
+  .whats {
+    flex: none; display: inline-flex; align-items: center; gap: 7px;
+    padding: 4px 13px 4px 10px; border-radius: 999px;
+    font-weight: 800; font-size: .76rem; letter-spacing: 1.2px; text-transform: uppercase;
+    color: #fff; background: var(--zap); text-decoration: none;
+    border: 2.5px solid var(--ink); box-shadow: 3px 3px 0 var(--ink);
+    transition: transform .1s ease, box-shadow .1s ease;
+  }
+  .whats svg { width: 17px; height: 17px; }
+  .whats:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--ink); }
+
+  .topo { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 40px; }
+  .nome {
+    font: 700 1.45rem/1 "Caveat", "Segoe Script", cursive;
+    color: var(--blue); white-space: nowrap; padding: 0 5px;
+    background: linear-gradient(transparent 62%, rgba(255,210,63,.8) 62%, rgba(255,210,63,.8) 88%, transparent 88%);
+  }
+  .ord {
+    font-size: .55em; vertical-align: .62em; letter-spacing: 0; margin-left: .05em;
+    text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .14em;
+  }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .tela { display: none; }
+  .tela.ativa { display: block; }
+
+  .chamada { margin: 30px 0 22px; }
+  h1 {
+    font: 700 clamp(2.4rem, 11vw, 3.2rem)/1 "Caveat", "Segoe Script", cursive;
+    color: var(--ink); margin: 0 0 10px; text-wrap: balance;
+  }
+  .sub { margin: 0; color: var(--muted); font-weight: 600; }
+
+  .materias { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .materias li {
+    padding: 3px 11px; font-weight: 800; font-size: .85rem; color: #1B1F3B;
+    background: var(--c); border: 2px solid var(--ink); border-radius: 999px;
+  }
+
+  .painel {
+    margin-top: 22px; padding: 22px 18px 20px;
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 6px;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+  .preco { display: flex; align-items: baseline; gap: 8px; margin: 0 0 4px; }
+  .preco strong { font-family: "Bangers", Impact, sans-serif; font-weight: 400; font-size: 3.2rem; line-height: 1; letter-spacing: 1px; }
+  .preco span { font-weight: 800; color: var(--muted); }
+  .inclui { list-style: none; padding: 0; margin: 12px 0 4px; display: grid; gap: 6px; }
+  .inclui li { display: flex; gap: 9px; font-weight: 600; }
+  .inclui li::before { content: "✓"; flex: none; font-weight: 900; color: var(--ok); }
+
+  label { display: block; margin: 16px 0 6px; font-weight: 800; font-size: .95rem; }
+  .dica { display: block; margin-top: 2px; font-weight: 600; font-size: .82rem; color: var(--muted); }
+  input {
+    width: 100%; font: inherit; padding: 11px 13px; color: var(--ink); background: var(--paper);
+    border: 3px solid var(--ink); border-radius: 6px;
+  }
+  input::placeholder { color: var(--muted); opacity: .75; }
+  input:focus { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+  .btn {
+    display: block; width: 100%; margin-top: 22px; padding: 12px 16px; cursor: pointer; text-align: center; text-decoration: none;
+    font: inherit; font-weight: 800; font-size: 1.05rem; letter-spacing: .5px; text-transform: uppercase;
+    color: #1B1F3B; background: var(--yellow);
+    border: 3px solid var(--ink); border-radius: 6px; box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--ink); }
+  .btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+  .btn:disabled { opacity: .6; cursor: wait; }
+  .btn:focus-visible, .link:focus-visible, .whats:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+  .formas { margin: 10px 0 0; text-align: center; color: var(--muted); font-size: .85rem; font-weight: 700; }
+
+  .link {
+    display: block; margin: 16px auto 0; padding: 4px; cursor: pointer; text-align: center;
+    font: inherit; font-weight: 800; color: var(--blue); background: none; border: 0;
+  }
+
+  .msg { display: none; margin-top: 18px; padding: 10px 12px; border-radius: 0 6px 6px 0; font-weight: 600; font-size: .95rem; }
+  .msg.erro { display: block; color: var(--bad); background: var(--badbg); border-left: 5px solid var(--bad); }
+  .msg.info { display: block; color: var(--info); background: var(--infobg); border-left: 5px solid var(--info); }
+
+  .alerta {
+    margin: 18px 0 0; padding: 10px 12px; font-size: .92rem; font-weight: 600;
+    color: var(--ink); background: #FFF1C2; border: 2.5px solid var(--ink); border-radius: 6px;
+  }
+  .alerta strong { display: block; font-weight: 900; }
+  :root[data-theme="dark"] .alerta { background: #3a3014; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .alerta { background: #3a3014; } }
+
+  h2 { font: 700 2rem/1.1 "Caveat", "Segoe Script", cursive; margin: 34px 0 12px; }
+  .passos { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .passos li { display: flex; gap: 10px; align-items: flex-start; font-weight: 600; }
+  .passos b {
+    flex: none; width: 26px; height: 26px; display: grid; place-items: center;
+    font-family: "Bangers", Impact, sans-serif; font-weight: 400; font-size: 1.05rem; color: #1B1F3B;
+    background: var(--yellow); border: 2px solid var(--ink); border-radius: 50%;
+  }
+
+  .selo {
+    width: 74px; height: 74px; margin: 0 auto 14px; display: grid; place-items: center;
+    font-size: 2.2rem; font-weight: 900; color: #1B1F3B;
+    background: var(--c, var(--yellow)); border: 3px solid var(--ink); border-radius: 50%; transform: rotate(-6deg);
+  }
+  .centro { text-align: center; }
+  .espera { display: inline-block; width: 1.1em; text-align: left; }
+
+  .rodape { margin-top: 30px; text-align: center; color: var(--muted); font-size: .85rem; font-weight: 600; }
+
+  @media (min-width: 640px) {
+    .wrap { padding: 28px 32px 56px; }
+    .chamada { margin-top: 48px; }
+    .painel { padding: 30px 30px 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     CONFIGURAÇÃO: endereço do Supabase e WhatsApp da professora
+     (só números, com 55 e DDD).
+     ============================================================ -->
+<script>
+  const SUPABASE_URL = "https://spbyexrqtzxildwjhcec.supabase.co";
+  const WHATSAPP_PROFESSORA = "5511976280903";
+</script>
+
+<div class="wrap">
+  <header class="topo">
+    <span class="nome"><span aria-hidden="true">Prof<span class="ord">a</span> Ana Clara</span><span class="sr">Professora Ana Clara</span></span>
+    <a id="botao-whatsapp" class="whats" target="_blank" rel="noopener" aria-label="Contato com a professora pelo WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Contato
+    </a>
+  </header>
+
+  <!-- ---------- Tela 1: oferta e formulário ---------- -->
+  <section id="tela-oferta" class="tela">
+    <div class="chamada">
+      <h1>Atividades do 6º ano</h1>
+      <p class="sub">Resumos, revisões, simulados e joguinhos para estudar antes das provas, feitos pela professora.</p>
+      <ul class="materias">
+        <li style="--c:#DDEBFF">Português</li>
+        <li style="--c:#FFE1EA">Matemática</li>
+        <li style="--c:#DDF7EC">Ciências</li>
+        <li style="--c:#FFF1C2">História</li>
+        <li style="--c:#DDEBFF">Geografia</li>
+        <li style="--c:#FFE1EA">Inglês</li>
+      </ul>
+    </div>
+
+    <div class="painel">
+      <p class="preco"><strong>R$&nbsp;40</strong><span>por mês</span></p>
+      <ul class="inclui">
+        <li>Todas as atividades publicadas, e as novas que entrarem no mês</li>
+        <li>Até 2 aparelhos de estudo da criança</li>
+        <li>Sem renovação automática: você renova só se quiser</li>
+      </ul>
+
+      <form id="form-compra" novalidate>
+        <label for="nome">Nome da família
+          <span class="dica">Aparece nas atividades. Ex.: Família Souza</span>
+        </label>
+        <input id="nome" type="text" autocomplete="family-name" maxlength="60" placeholder="Família Souza" required>
+        <label for="email">Seu e-mail
+          <span class="dica">Você vai usar para entrar. Já é cliente? Use o mesmo e-mail para renovar.</span>
+        </label>
+        <input id="email" type="email" autocomplete="email" placeholder="seuemail@exemplo.com" required>
+        <label for="whatsapp">Seu WhatsApp
+          <span class="dica">É por ele que a professora te manda o código de acesso.</span>
+        </label>
+        <input id="whatsapp" type="tel" inputmode="tel" autocomplete="tel" placeholder="(11) 91234-5678" required>
+        <button class="btn" type="submit">Pagar com Pix ou cartão</button>
+        <p class="formas">Pagamento seguro pelo Mercado Pago</p>
+      </form>
+      <div id="msg-compra" class="msg" role="alert"></div>
+    </div>
+
+    <h2>Como funciona</h2>
+    <ol class="passos">
+      <li><b>1</b><span>Você paga com Pix ou cartão. O acesso é liberado assim que o pagamento cai.</span></li>
+      <li><b>2</b><span>Abra o portal <strong>só no aparelho que a criança usa para estudar</strong> e digite o e-mail e o WhatsApp da compra.</span></li>
+      <li><b>3</b><span>A professora te manda um código pelo WhatsApp. Digite no portal e pronto: depois disso entra direto.</span></li>
+    </ol>
+    <div class="alerta" role="note">
+      <strong>Cada família pode liberar no máximo 2 aparelhos.</strong>
+      Para trocar de aparelho ou colocar mais um, é só falar com a professora.
+    </div>
+  </section>
+
+  <!-- ---------- Tela 2: voltou do Mercado Pago ---------- -->
+  <section id="tela-retorno" class="tela">
+    <div class="painel centro" style="margin-top: 48px">
+      <div id="ret-selo" class="selo" aria-hidden="true">…</div>
+      <h1 id="ret-titulo" style="font-size: 2.6rem">Conferindo o pagamento<span class="espera" id="pontos"></span></h1>
+      <p id="ret-texto" class="sub">Isso leva alguns segundos. Se pagou com Pix, pode deixar esta tela aberta.</p>
+      <a id="ret-portal" class="btn" style="display: none" href="#">Abrir o portal</a>
+      <button id="ret-voltar" class="link" type="button" style="display: none">Tentar pagar de novo</button>
+    </div>
+    <p class="rodape">Qualquer dúvida, toque em <strong>Contato</strong> lá em cima.</p>
+  </section>
+
+  <p class="rodape">Profª Ana Clara · Atividades do 6º ano</p>
+</div>
+
+<script>
+  const FUNCAO = SUPABASE_URL.replace(/\/+$/, "") + "/functions/v1/loja";
+  const $ = (id) => document.getElementById(id);
+
+  const guarda = {
+    ler(chave) { try { return localStorage.getItem(chave); } catch { return null; } },
+    gravar(chave, valor) { try { localStorage.setItem(chave, valor); } catch {} },
+  };
+
+  function mostrar(tela) {
+    document.querySelectorAll(".tela").forEach((t) => t.classList.remove("ativa"));
+    $(tela).classList.add("ativa");
+    const texto = tela === "tela-retorno"
+      ? "Olá, professora! Fiz o pagamento das atividades com o e-mail " + (guarda.ler("loja_email") || "") + "."
+      : "Olá, professora! Quero saber mais sobre as atividades.";
+    $("botao-whatsapp").href = "https://wa.me/" + WHATSAPP_PROFESSORA + "?text=" + encodeURIComponent(texto);
+    window.scrollTo(0, 0);
+  }
+
+  function aviso(texto, tipo = "erro") {
+    const el = $("msg-compra");
+    el.className = "msg " + (texto ? tipo : "");
+    el.textContent = texto || "";
+  }
+
+  async function chamar(dados) {
+    let r;
+    try {
+      r = await fetch(FUNCAO, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dados),
+      });
+    } catch {
+      throw new Error("Sem conexão. Confira a internet e tente de novo.");
+    }
+    let json = {};
+    try { json = await r.json(); } catch {}
+    if (!r.ok) throw new Error(json.erro || "Algo deu errado. Tente de novo.");
+    return json;
+  }
+
+  // ---------- Pagar ----------
+  $("nome").value = guarda.ler("loja_nome") || "";
+  $("email").value = guarda.ler("loja_email") || "";
+  $("whatsapp").value = guarda.ler("loja_whatsapp") || "";
+
+  $("form-compra").addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const botao = ev.submitter || ev.target.querySelector("button");
+    const nome = $("nome").value.trim();
+    const email = $("email").value.trim().toLowerCase();
+    const whatsapp = $("whatsapp").value.trim();
+    const digitos = whatsapp.replace(/\D/g, "");
+    if (nome.length < 3) return aviso("Escreva o nome da família.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return aviso("Confira o e-mail.");
+    if (digitos.length < 10 || digitos.length > 13) return aviso("Confira o WhatsApp, com DDD.");
+    aviso("");
+    botao.disabled = true;
+    try {
+      const r = await chamar({ acao: "comprar", nome, email, whatsapp });
+      guarda.gravar("loja_nome", nome);
+      guarda.gravar("loja_email", email);
+      guarda.gravar("loja_whatsapp", whatsapp);
+      window.location.href = r.url;
+    } catch (e) {
+      aviso(e.message);
+      botao.disabled = false;
+    }
+  });
+
+  // ---------- Voltou do Mercado Pago ----------
+  function dataBR(iso) {
+    const [a, m, d] = iso.split("-");
+    return d + "/" + m + "/" + a;
+  }
+
+  let animacao;
+  function pararEspera() { clearInterval(animacao); $("pontos").textContent = ""; }
+
+  function pago(r) {
+    pararEspera();
+    $("ret-selo").textContent = "✓";
+    $("ret-selo").style.setProperty("--c", "#DDF7EC");
+    $("ret-titulo").textContent = "Pagamento recebido!";
+    $("ret-texto").textContent =
+      (r.acesso_ate ? "O acesso vale até " + dataBR(r.acesso_ate) + ". " : "") +
+      "Abra o portal só no aparelho de estudos da criança e digite " + r.email +
+      " e o seu WhatsApp. A professora te manda o código pelo WhatsApp. " +
+      "Se o aparelho já entrava antes, continua entrando direto.";
+    $("ret-portal").href = r.portal;
+    $("ret-portal").style.display = "block";
+  }
+
+  function naoChegou() {
+    pararEspera();
+    $("ret-selo").textContent = "?";
+    $("ret-titulo").textContent = "Ainda não recebemos";
+    $("ret-texto").textContent =
+      "Se você pagou, pode levar alguns minutos: você recebe um e-mail quando o acesso for liberado. " +
+      "Se desistiu ou deu erro, toque em Tentar pagar de novo.";
+    $("ret-voltar").style.display = "block";
+  }
+
+  async function conferir(compraId) {
+    mostrar("tela-retorno");
+    let n = 0;
+    animacao = setInterval(() => { $("pontos").textContent = ".".repeat((n++ % 3) + 1); }, 450);
+    const inicio = Date.now();
+    while (Date.now() - inicio < 3 * 60 * 1000) {
+      try {
+        const r = await chamar({ acao: "status", compra_id: compraId });
+        if (r.status === "pago") return pago(r);
+      } catch {}
+      await new Promise((ok) => setTimeout(ok, 4000));
+    }
+    naoChegou();
+  }
+
+  $("ret-voltar").addEventListener("click", () => {
+    history.replaceState(null, "", location.pathname);
+    mostrar("tela-oferta");
+  });
+
+  const params = new URLSearchParams(location.search);
+  const compraId = params.get("compra");
+  const situacaoMP = params.get("collection_status") || params.get("status");
+  if (compraId && (situacaoMP === "rejected" || situacaoMP === "null")) {
+    mostrar("tela-retorno");
+    naoChegou();
+  } else if (compraId) conferir(compraId);
+  else mostrar("tela-oferta");
+</script>
+</body>
+</html>
