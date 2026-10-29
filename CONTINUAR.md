@@ -25,10 +25,11 @@
 ## Feito em 29/10/2026
 1. Projeto `area-familias-loja` (ref `spbyexrqtzxildwjhcec`, São Paulo) na organização separada "Profª Ana Clara – Loja".
 2. Migrações 01→05 aplicadas; funções `acesso` e `loja` publicadas com verificação JWT desligada; agendador das 9h apontando para o projeto novo.
-3. `SUPABASE_URL` trocado nos 3 arquivos de `site/` e na migração 05; zip do Netlify gerado.
+3. `SUPABASE_URL` trocado nos 3 arquivos de `site/` e na migração 05. O site é publicado pelo GitHub Pages
+   (`.github/workflows/site.yml`) em https://ana0104.github.io/aulas/ – é esse o `SITE_URL`.
 4. Testado pelo servidor: entrada com código (errado/certo/reuso), WhatsApp errado, 3º aparelho barrado, mensalidade vencida, venda nova, renovação e lembretes.
 
 ## Próximos passos
-4. Professora: publicar no Netlify (projeto novo), criar o Access Token de produção do Mercado Pago e a apikey do CallMeBot.
+4. Professora: ligar o GitHub Pages (Settings → Pages → Source: GitHub Actions), criar o Access Token de produção do Mercado Pago e a apikey do CallMeBot.
 5. Segredos das funções: `SITE_URL`, `MP_ACCESS_TOKEN`, `CALLMEBOT_APIKEY` e `PAINEL_SENHA` (8+ caracteres). Nunca colar no chat.
 6. Testar: botão "Testar WhatsApp" no painel, enviar uma atividade e fazer uma compra real de R$ 40.

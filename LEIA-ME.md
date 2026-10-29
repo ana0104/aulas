@@ -2,7 +2,7 @@
 
 Site novo, separado do original (`ana0104/prof.ana` não foi alterado).
 
-- `site/` – o que vai para o Netlify (portal em `/`, loja em `/loja`, painel em `/loja/painel.html`)
+- `site/` – o site, publicado pelo GitHub Pages em https://ana0104.github.io/aulas/ (portal em `/`, loja em `/loja`, painel em `/loja/painel.html`)
 - `supabase/functions/` – funções `acesso` (portal e painel) e `loja` (Mercado Pago e lembretes)
 - `supabase/migracoes/` – banco, na ordem em que foi aplicado no projeto `area-familias-loja`
 
